@@ -1,12 +1,13 @@
-<div :class="{'dark text-white-dark' : $store.app.semidark}">
+<div :class="{ 'dark text-white-dark': $store.app.semidark }">
     <nav x-data="sidebar"
         class="sidebar fixed bottom-0 top-0 z-50 h-full min-h-screen w-[260px] shadow-[5px_0_25px_0_rgba(94,92,154,0.1)] transition-all duration-300">
         <div class="h-full bg-white dark:bg-[#0e1726]">
             <div class="flex items-center justify-between px-4 py-3">
                 <a href="index-2.html" class="main-logo flex shrink-0 items-center">
                     <span
-                        class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">Sewa
-                        Mobil</span>
+                        class="align-middle text-2xl font-semibold ltr:ml-1.5 rtl:mr-1.5 dark:text-white-light lg:inline">
+                        {{-- Sewa Mobil --}}
+                    </span>
                 </a>
                 <a href="javascript:;"
                     class="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
@@ -23,11 +24,12 @@
             <ul class="perfect-scrollbar relative h-[calc(100vh-80px)] space-y-0.5 overflow-y-auto overflow-x-hidden p-4 py-0 font-semibold"
                 x-data="{ activeDropdown: 'dashboard' }">
                 <li class="menu nav-item">
-                    <button type="button" class="nav-link group" :class="{'active' : activeDropdown === 'manage_mobil'}"
+                    <button type="button" class="nav-link group"
+                        :class="{ 'active': activeDropdown === 'manage_mobil' }"
                         @click="activeDropdown === 'manage_mobil' ? activeDropdown = null : activeDropdown = 'manage_mobil'">
                         <div class="flex items-center">
-                            <svg class="shrink-0 group-hover:!text-primary" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path opacity="0.5"
                                     d="M3 10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H13C16.7712 2 18.6569 2 19.8284 3.17157C21 4.34315 21 6.22876 21 10V14C21 17.7712 21 19.6569 19.8284 20.8284C18.6569 22 16.7712 22 13 22H11C7.22876 22 5.34315 22 4.17157 20.8284C3 19.6569 3 17.7712 3 14V10Z"
                                     fill="currentColor" />
@@ -45,7 +47,7 @@
                                 class="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">Management
                                 Mobil</span>
                         </div>
-                        <div class="rtl:rotate-180" :class="{'!rotate-90' : activeDropdown === 'manage_mobil'}">
+                        <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'manage_mobil' }">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"
@@ -117,11 +119,12 @@
                 </ul>
 
                 <li class="menu nav-item">
-                    <button type="button" class="nav-link group" :class="{'active' : activeDropdown === 'master_data'}"
+                    <button type="button" class="nav-link group"
+                        :class="{ 'active': activeDropdown === 'master_data' }"
                         @click="activeDropdown === 'master_data' ? activeDropdown = null : activeDropdown = 'master_data'">
                         <div class="flex items-center">
-                            <svg class="shrink-0 group-hover:!text-primary" width="20" height="20" viewBox="0 0 24 24"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="shrink-0 group-hover:!text-primary" width="20" height="20"
+                                viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path opacity="0.5"
                                     d="M3 10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H13C16.7712 2 18.6569 2 19.8284 3.17157C21 4.34315 21 6.22876 21 10V14C21 17.7712 21 19.6569 19.8284 20.8284C18.6569 22 16.7712 22 13 22H11C7.22876 22 5.34315 22 4.17157 20.8284C3 19.6569 3 17.7712 3 14V10Z"
                                     fill="currentColor" />
@@ -140,7 +143,7 @@
                                 Master Data
                             </span>
                         </div>
-                        <div class="rtl:rotate-180" :class="{'!rotate-90' : activeDropdown === 'master_data'}">
+                        <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'master_data' }">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5"

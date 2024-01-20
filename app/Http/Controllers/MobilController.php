@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Merk;
+use App\Models\Mobil;
 use Illuminate\Http\Request;
 use DataTables;
 
-class MerkController extends Controller
+class MobilController extends Controller
 {
     public function index(Request $request)
     {
-        // $merk = Merk::paginate(5);
-        // return view('master_data.merk', compact('merk'));
         if ($request->ajax()) {
-            $data = Merk::select('*');;
+            $data = Mobil::select('*');
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -30,21 +28,14 @@ class MerkController extends Controller
                     if (!empty($request->get('search'))) {
                         $instance->where(function ($w) use ($request) {
                             $search = $request->get('search');
-                            $w->orWhere('kode', 'LIKE', "%$search%")
-                                ->orWhere('nama', 'LIKE', "%$search%");
+                            $w->orWhere('merk', 'LIKE', "%$search%")
+                                ->orWhere('model', 'LIKE', "%$search%");
                         });
                     }
                 })
                 ->make(true);
         }
 
-        return view('master_data.merk');
-    }
-
-
-    public function getData()
-    {
-        $merk = Merk::all();
-        return response()->json($merk, 200);
+        return view('management_mobil.info_data_mobil');
     }
 }
