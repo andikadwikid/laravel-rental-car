@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->date('tgl_mulai');
             $table->date('tgl_selesai');
-            $table->date('tgl_kembali');
+            $table->date('tgl_kembali')->nullable();
             $table->integer('total_tagihan');
             $table->foreign('kendaraan_id')->references('id')->on('mobils')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

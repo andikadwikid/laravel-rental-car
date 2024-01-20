@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
     //Master Merk
     Route::get('/merk', [MerkController::class, 'index'])->name('merk');
+    Route::post('/merk', [MerkController::class, 'store'])->name('merk.store');
 
     //Master Model
     Route::get('/model', [ModelMobilController::class, 'index'])->name('model');

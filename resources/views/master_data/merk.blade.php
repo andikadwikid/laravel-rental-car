@@ -26,7 +26,9 @@
                         <h5 class="font-bold text-lg">Modal Title</h5>
                     </div>
                     <div class="p-5">
-                        <form class="space-y-5" action="/">
+                        <form class="space-y-5" action="{{ route('merk.store') }}">
+                            @method('POST')
+                            @csrf
                             <div class="grid grid-cols-1">
                                 <div class="md:col-span-2">
                                     <label for="merk">Kode</label>
@@ -42,7 +44,7 @@
 
                             <div class="flex justify-end items-center mt-8">
                                 <button type="button" class="btn btn-outline-danger" @click="toggle">Close</button>
-                                <button type="submit" class="btn btn-primary ltr:ml-4 rtl:mr-4"
+                                <button type="submit" class="btn btn-primary ltr:ml-4 rtl:mr-4" id="store"
                                     @click="toggle">Save</button>
                             </div>
                         </form>
@@ -126,6 +128,27 @@
             ],
             pageLength: 5,
             searching: true
+        });
+
+        $('#store').click(function(e) {
+            e.preventDefault();
+            $(this).html('Sending..');
+
+            $.ajax({
+                data: $('#productForm').serialize(),
+                url: "{{ route('products.store') }}",
+                type: "POST",
+                dataType: 'json',
+                success: function(data) {
+                    $('#productForm').trigger("reset");
+                    $('#ajaxModel').modal('hide');
+                    table.draw();
+                },
+                error: function(data) {
+                    console.log('Error:', data);
+                    $('#store').html('Save Changes');
+                }
+            });
         });
     </script>
 @endsection

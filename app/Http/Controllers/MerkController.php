@@ -42,9 +42,15 @@ class MerkController extends Controller
     }
 
 
-    public function getData()
+    public function store(Request $request)
     {
-        $merk = Merk::all();
-        return response()->json($merk, 200);
+        $request->validate([
+            'kode' => 'required',
+            'nama' => 'required',
+        ]);
+
+        Merk::create($request->all());
+
+        return response()->json(['success' => 'Post saved successfully.']);
     }
 }

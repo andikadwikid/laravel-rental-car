@@ -27,6 +27,7 @@
                     </div>
                     <div class="p-5">
                         <form class="space-y-5" action="/">
+                            @csrf
                             <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-1">
                                 <div class="md:col-span-2">
                                     <label for="merk">Merk</label>
