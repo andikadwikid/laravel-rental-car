@@ -47,10 +47,17 @@ Route::middleware('auth')->group(function () {
 
     //Master Merk
     Route::get('/merk', [MerkController::class, 'index'])->name('merk');
+    Route::get('/get-merk/{id}', [MerkController::class, 'getMerk'])->name('get-merk');
     Route::post('/merk', [MerkController::class, 'store'])->name('merk.store');
+    Route::put('/merk/{id}', [MerkController::class, 'update'])->name('merk.update');
+    Route::delete('/merk/{id}', [MerkController::class, 'destroy'])->name('merk.destroy');
 
     //Master Model
     Route::get('/model', [ModelMobilController::class, 'index'])->name('model');
+    Route::get('/get-model/{id}', [ModelMobilController::class, 'getmodel'])->name('get-model');
+    Route::post('/model', [ModelMobilController::class, 'store'])->name('model.store');
+    Route::put('/model/{id}', [ModelMobilController::class, 'update'])->name('model.update');
+    Route::delete('/model/{id}', [ModelMobilController::class, 'destroy'])->name('model.destroy');
 });
 
 require __DIR__ . '/auth.php';

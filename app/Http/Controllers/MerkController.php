@@ -10,18 +10,16 @@ class MerkController extends Controller
 {
     public function index(Request $request)
     {
-        // $merk = Merk::paginate(5);
-        // return view('master_data.merk', compact('merk'));
         if ($request->ajax()) {
             $data = Merk::select('*');;
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
 
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm">View</a>';
-                    // $btn = $btn . '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    // $btn = $btn . '<a href="javascript:void(0)" class="edit btn btn-danger btn-sm">Delete</a>';
-
+                    $btn = '<div class="flex gap-2">';
+                    $btn .= '<a href="javascript:void(0)" class="edit btn btn-info btn-sm" data-id="' . $row->id . '">Edit</a>';
+                    $btn .= '<a href="javascript:void(0)" class="delete btn btn-danger btn-sm" data-id="' . $row->id . '">Delete</a>';
+                    $btn .= '</div>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -43,13 +41,34 @@ class MerkController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'kode' => 'required',
-            'nama' => 'required',
+        Merk::create([
+            'nama' => $request->nama
         ]);
 
-        Merk::create($request->all());
+        return response()->json(['success' => 'Data Berhasil Disimpan !']);
+    }
 
-        return response()->json(['success' => 'Post saved successfully.']);
+    public function getMerk($id)
+    {
+        $data = Merk::where('id', $id)->first();
+
+        return response()->json($data);
+    }
+
+    public function update(Request $request)
+    {
+        $merk = Merk::where('id', $request->id)->first();
+        $merk->update([
+            'nama' => $request->nama,
+        ]);
+        return response()->json(['success' => 'Data Berhasil Diupdate !']);
+    }
+
+    public function destroy($id)
+    {
+        $merk = Merk::where('id', $id);
+        $merk->delete();
+
+        return response()->json(['success' => 'Data Berhasil Dihapus !']);
     }
 }
