@@ -18,26 +18,26 @@ class MobilSeeder extends Seeder
 
         $data = [
             [
-                'merk' => Merk::all()->random()->kode,
-                'model' => ModelMobil::all()->random()->kode,
+                'merk' => Merk::all()->random()->id,
+                'model' => ModelMobil::all()->random()->id,
                 'no_plat' => 'B 1234 AB',
                 'tarif' => 250000
             ],
             [
-                'merk' => Merk::all()->random()->kode,
-                'model' => ModelMobil::all()->random()->kode,
+                'merk' => Merk::all()->random()->id,
+                'model' => ModelMobil::all()->random()->id,
                 'no_plat' => 'B 1234 AC',
                 'tarif' => 300000
             ],
             [
-                'merk' => Merk::all()->random()->kode,
-                'model' => ModelMobil::all()->random()->kode,
+                'merk' => Merk::all()->random()->id,
+                'model' => ModelMobil::all()->random()->id,
                 'no_plat' => 'B 1234 AD',
                 'tarif' => 220000
             ],
             [
-                'merk' => Merk::all()->random()->kode,
-                'model' => ModelMobil::all()->random()->kode,
+                'merk' => Merk::all()->random()->id,
+                'model' => ModelMobil::all()->random()->id,
                 'no_plat' => 'B 1234 AE',
                 'tarif' => 280000
             ],

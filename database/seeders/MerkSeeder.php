@@ -15,31 +15,26 @@ class MerkSeeder extends Seeder
     {
         $data = [
             [
-                'kode' => 'M001',
                 'nama' => 'Toyota',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode' => 'M002',
                 'nama' => 'Honda',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode' => 'M003',
                 'nama' => 'Suzuki',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode' => 'M004',
                 'nama' => 'Mitsubishi',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'kode' => 'M005',
                 'nama' => 'Nissan',
                 'created_at' => now(),
                 'updated_at' => now(),

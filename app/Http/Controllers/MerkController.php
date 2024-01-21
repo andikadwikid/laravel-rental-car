@@ -30,8 +30,7 @@ class MerkController extends Controller
                     if (!empty($request->get('search'))) {
                         $instance->where(function ($w) use ($request) {
                             $search = $request->get('search');
-                            $w->orWhere('kode', 'LIKE', "%$search%")
-                                ->orWhere('nama', 'LIKE', "%$search%");
+                            $w->orWhere('nama', 'LIKE', "%$search%");
                         });
                     }
                 })
