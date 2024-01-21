@@ -9,5 +9,21 @@ class Mobil extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $table = 'mobils';
+    protected $fillable = [
+        'merk',
+        'model',
+        'no_plat',
+        'tarif'
+    ];
+
+    public function merk()
+    {
+        return $this->hasMany(Merk::class, 'id', 'merk');
+    }
+
+    public function model()
+    {
+        return $this->hasMany(ModelMobil::class, 'id', 'model');
+    }
 }

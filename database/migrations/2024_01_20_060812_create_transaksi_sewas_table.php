@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tgl_selesai');
             $table->date('tgl_kembali')->nullable();
             $table->integer('total_tagihan');
+            $table->boolean('batal')->default(false);
             $table->foreign('kendaraan_id')->references('id')->on('mobils')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

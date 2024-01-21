@@ -10,6 +10,7 @@
 </ul>
 @endsection
 @section('content')
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -25,7 +26,6 @@
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-form" id="add-data">
     Tambah
 </button>
-
 <!-- Modal -->
 <div class="modal fade" id="modal-form" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -35,14 +35,46 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="form-model">
+                <form id="form-mobil">
                     {{-- @method('POST') --}}
                     @csrf
                     <input type="hidden" name="id" id="id">
                     <div class="grid grid-cols-1">
                         <div class="md:col-span-2">
-                            <label for="nama">Nama</label>
-                            <input id="nama" type="text" placeholder="Model Mobil" name="nama" class="form-input" />
+                            <label for="merk">Merk</label>
+                            <select class="form-select" id="merk" name="merk">
+                                <option selected>Choose...</option>
+                                @foreach($merks as $merk)
+                                <option value="{{ $merk->id }}">{{ $merk->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1">
+                        <div class="md:col-span-1">
+                            <label for="model">Model</label>
+                            {{-- <input id="model" type="text" placeholder="Model Mobil" name="model"
+                                class="form-input" /> --}}
+                            <select class="form-select" id="model" name="model">
+                                <option selected>Choose...</option>
+                                @foreach($models as $model)
+                                <option value="{{ $model->id }}">{{ $model->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1">
+                        <div class="md:col-span-2">
+                            <label for="no_plat">Nomor Plat</label>
+                            <input id="no_plat" type="text" placeholder="Nomor Plat Mobil" name="no_plat"
+                                class="form-input" />
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1">
+                        <div class="md:col-span-2">
+                            <label for="tarif">Tarif</label>
+                            <input id="tarif" type="text" placeholder="Tarif Sewa Mobil" name="tarif"
+                                class="form-input" />
                         </div>
                     </div>
                 </form>
@@ -69,12 +101,15 @@
 </script>
 <div>
     <div class="panel mt-6">
-        <table id="Model" class="table-hover whitespace-nowrap">
+        <table id="Mobil" class="table-hover whitespace-nowrap">
             <!-- Tabel untuk menampilkan data -->
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama</th>
+                    <th>Merk</th>
+                    <th>Model</th>
+                    <th>Nomor Plat</th>
+                    <th>Tarif</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -86,11 +121,11 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
-    const table = $('#Model').DataTable({
+    const table = $('#Mobil').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ route('model') }}",
+                url: "{{ route('info-data-mobil') }}",
                 data: function(d) {
                     d.status = $('#status').val(),
                         d.search = $('input[type="search"]').val()
@@ -104,8 +139,20 @@
                     searchable: false
                 },
                 {
-                    data: 'nama',
-                    name: 'nama'
+                    data: 'merk',
+                    name: 'merk'
+                },
+                {
+                    data: 'model',
+                    name: 'model'
+                },
+                {
+                    data: 'no_plat',
+                    name: 'no_plat'
+                },
+                {
+                    data: 'tarif',
+                    name: 'tarif'
                 },
                 {
                     data: 'action',
@@ -120,24 +167,28 @@
 
         //Add Data
         $('#add-data').click(function() {
-            $('#title-modal').html("Tambah Data Model");
+            $('#title-modal').html("Tambah Data Mobil");
             $('#save-button').text("Save");
             $('#save-button').val("Save");
             $('#id').val('');
-            $('#form-merk').trigger("reset");
+            $('#form-mobil').trigger("reset");
         });
 
         //Edit Data
         $('body').on('click', '.edit', function() {
             var id = $(this).data('id');
             console.log(id)
-            $.get("/get-model" + '/' + id , function(data) {
-                $('#title-modal').html("Edit Data Model");
+            $.get("/get-data-mobil" + '/' + id , function(data) {
+                $('#title-modal').html("Edit Data Mobil");
                 $('#save-button').text("Update");
                 $('#save-button').val("Update");
                 $('#modal-form').modal('show');
                 $('#id').val(data.id);
-                $('#nama').val(data.nama);
+                $('#merk').val(data.merk);
+                $('#model').val(data.model);
+                $('#no_plat').val(data.no_plat);
+                $('#tarif').val(data.tarif);
+
             })
         });
 
@@ -147,15 +198,15 @@
             let url
             let type
             if($('#save-button').val() == "Save"){
-                url = "{{ route('model.store') }}";
+                url = "{{ route('info-data-mobil.store') }}";
                 type = "POST";
             }else{
-                url = "/model/"+id;
+                url = "/info-data-mobil/"+id;
                 type = "PUT";
             }
                 e.preventDefault();
                 $.ajax({
-                    data: $('#form-model').serialize(),
+                    data: $('#form-mobil').serialize(),
                     url: url,
                     type: type,
                     dataType: 'json',
@@ -168,7 +219,7 @@
                                 text: data.success
                             }).then(() => {
 
-                            $('#form-model').trigger("reset");
+                            $('#form-mobil').trigger("reset");
                             $('.btn-close').click();
                             })
                         }
@@ -199,15 +250,15 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                data: $('#form-model').serialize(),
-                                url: "/model/" + id,
+                                data: $('#form-mobil').serialize(),
+                                url: "/info-data-mobil/" + id,
                                 success: function(data) {
 
                                     if(data.success)
                                     {
                                         Swal.fire("Data Berhasil Dihapus !", "", "success")
                                         .then(() => {
-                                            $('#form-model').trigger("reset");
+                                            $('#form-mobil').trigger("reset");
                                             $('.btn-close').click();
                                         });
                                     }

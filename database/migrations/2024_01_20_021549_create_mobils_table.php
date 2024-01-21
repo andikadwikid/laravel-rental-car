@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('merk');
             $table->unsignedBigInteger('model');
+            // $table->string('merk');
+            // $table->string('model');
             $table->string('no_plat', 10);
-            $table->float('tarif');
+            $table->integer('tarif');
             $table->timestamps();
 
             $table->foreign('merk')->references('id')->on('merks')->onDelete('cascade');

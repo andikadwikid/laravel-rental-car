@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\ModelMobil;
 use Illuminate\Http\Request;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class ModelMobilController extends Controller
 {
     public function index(Request $request)
     {
-        // $merk = Merk::paginate(5);
-        // return view('master_data.merk', compact('merk'));
         if ($request->ajax()) {
             $data = ModelMobil::select('*');
             return DataTables::of($data)

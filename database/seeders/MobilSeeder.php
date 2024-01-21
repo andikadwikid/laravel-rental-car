@@ -20,24 +20,32 @@ class MobilSeeder extends Seeder
             [
                 'merk' => Merk::all()->random()->id,
                 'model' => ModelMobil::all()->random()->id,
+                // 'merk' => 'Toyota',
+                // 'model' => 'Hybrid',
                 'no_plat' => 'B 1234 AB',
                 'tarif' => 250000
             ],
             [
                 'merk' => Merk::all()->random()->id,
                 'model' => ModelMobil::all()->random()->id,
+                // 'merk' => 'Nissan',
+                // 'model' => 'Sedan',
                 'no_plat' => 'B 1234 AC',
                 'tarif' => 300000
             ],
             [
                 'merk' => Merk::all()->random()->id,
                 'model' => ModelMobil::all()->random()->id,
+                // 'merk' => 'Mitsubishi',
+                // 'model' => 'SUV',
                 'no_plat' => 'B 1234 AD',
                 'tarif' => 220000
             ],
             [
                 'merk' => Merk::all()->random()->id,
                 'model' => ModelMobil::all()->random()->id,
+                // 'merk' => 'Suzuki',
+                // 'model' => 'Pickup',
                 'no_plat' => 'B 1234 AE',
                 'tarif' => 280000
             ],
