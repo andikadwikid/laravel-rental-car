@@ -33,11 +33,11 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-
+        <div class="flex items-center justify-end mt-4 gap-2">
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+            <a href="/register" class="text-white">Register</a>
         </div>
     </form>
 </x-guest-layout>

@@ -14,25 +14,51 @@ class TransaksiSewaController extends Controller
     public function pinjam_index(Request $request)
     {
         if ($request->ajax()) {
-            $data = DB::table('transaksi_sewas')
-                ->select(
-                    'transaksi_sewas.id',
-                    'transaksi_sewas.tgl_mulai',
-                    'transaksi_sewas.tgl_selesai',
-                    'transaksi_sewas.tgl_kembali',
-                    'users.name as user',
-                    'mobils.no_plat',
-                    'mobils.tarif',
-                    'merks.nama as merk',
-                    'model_mobils.nama as model'
-                )
-                ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
-                ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
-                ->join('merks', 'merks.id', '=', 'mobils.merk')
-                ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
-                ->where(function ($query) {
-                    $query->whereNull('transaksi_sewas.tgl_kembali');
-                });
+            if (auth()->user()->role == 'admin') {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNull('transaksi_sewas.tgl_kembali');
+                    });
+            } else {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNull('transaksi_sewas.tgl_kembali');
+                    })
+                    ->where(function ($query) {
+                        $query->where('user_id', auth()->user()->id);
+                    });
+            }
+
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -79,45 +105,93 @@ class TransaksiSewaController extends Controller
     public function retur_mobil(Request $request)
     {
         if ($request->ajax()) {
-            $data = DB::table('transaksi_sewas')
-                ->select(
-                    'transaksi_sewas.id',
-                    'transaksi_sewas.tgl_mulai',
-                    'transaksi_sewas.tgl_selesai',
-                    'transaksi_sewas.tgl_kembali',
-                    'users.name as user',
-                    'mobils.no_plat',
-                    'mobils.tarif',
-                    'merks.nama as merk',
-                    'model_mobils.nama as model'
-                )
-                ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
-                ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
-                ->join('merks', 'merks.id', '=', 'mobils.merk')
-                ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
-                ->where(function ($query) {
-                    $query->whereNull('transaksi_sewas.tgl_kembali');
-                });
+            if (auth()->user()->role == 'admin') {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNull('transaksi_sewas.tgl_kembali');
+                    });
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<div class="flex gap-2">';
-                    $btn .= '<a href="javascript:void(0)" class="update btn btn-success btn-sm" data-id="' . $row->id . '">Kembalikan</a>';
-                    $btn .= '</div>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->filter(function ($query) use ($request) {
-                    if (!empty($request->get('search'))) {
-                        $search = $request->get('search');
-                        $query
-                            ->orWhere('merks.nama', 'LIKE', "%$search%")
-                            ->orWhere('model_mobils.nama', 'LIKE', "%$search%")
-                            ->orWhere('mobils.no_plat', 'LIKE', "%$search%");
-                    }
-                })
-                ->make(true);
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<div class="flex gap-2">';
+                        $btn .= '<a href="javascript:void(0)" class="update btn btn-success btn-sm" data-id="' . $row->id . '">Kembalikan</a>';
+                        $btn .= '</div>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->filter(function ($query) use ($request) {
+                        if (!empty($request->get('search'))) {
+                            $search = $request->get('search');
+                            $query
+                                ->orWhere('merks.nama', 'LIKE', "%$search%")
+                                ->orWhere('model_mobils.nama', 'LIKE', "%$search%")
+                                ->orWhere('mobils.no_plat', 'LIKE', "%$search%");
+                        }
+                    })
+                    ->make(true);
+            } else {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNull('transaksi_sewas.tgl_kembali');
+                    })
+                    ->where(function ($query) {
+                        $query->where('user_id', auth()->user()->id);
+                    });
+
+                return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function ($row) {
+                        $btn = '<div class="flex gap-2">';
+                        $btn .= '<a href="javascript:void(0)" class="update btn btn-success btn-sm" data-id="' . $row->id . '">Kembalikan</a>';
+                        $btn .= '</div>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->filter(function ($query) use ($request) {
+                        if (!empty($request->get('search'))) {
+                            $search = $request->get('search');
+                            $query
+                                ->orWhere('merks.nama', 'LIKE', "%$search%")
+                                ->orWhere('model_mobils.nama', 'LIKE', "%$search%")
+                                ->orWhere('mobils.no_plat', 'LIKE', "%$search%")
+                                ->where(function ($query) {
+                                    $query->where('user_id', auth()->user()->id);
+                                });
+                        }
+                    })
+                    ->make(true);
+            }
         }
 
         return view('sewa_mobil.kembalikan_mobil');
@@ -126,25 +200,53 @@ class TransaksiSewaController extends Controller
     public function retur_mobil_history(Request $request)
     {
         if ($request->ajax()) {
-            $data = DB::table('transaksi_sewas')
-                ->select(
-                    'transaksi_sewas.id',
-                    'transaksi_sewas.tgl_mulai',
-                    'transaksi_sewas.tgl_selesai',
-                    'transaksi_sewas.tgl_kembali',
-                    'users.name as user',
-                    'mobils.no_plat',
-                    'mobils.tarif',
-                    'merks.nama as merk',
-                    'model_mobils.nama as model'
-                )
-                ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
-                ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
-                ->join('merks', 'merks.id', '=', 'mobils.merk')
-                ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
-                ->where(function ($query) {
-                    $query->whereNotNull('transaksi_sewas.tgl_kembali');
-                });
+            if (auth()->user()->role == 'admin') {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'transaksi_sewas.user_id',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNotNull('transaksi_sewas.tgl_kembali');
+                    });
+            } else {
+                $data = DB::table('transaksi_sewas')
+                    ->select(
+                        'transaksi_sewas.id',
+                        'transaksi_sewas.tgl_mulai',
+                        'transaksi_sewas.tgl_selesai',
+                        'transaksi_sewas.tgl_kembali',
+                        'users.name as user',
+                        'transaksi_sewas.user_id',
+                        'mobils.no_plat',
+                        'mobils.tarif',
+                        'merks.nama as merk',
+                        'model_mobils.nama as model'
+                    )
+                    ->join('mobils', 'mobils.id', '=', 'transaksi_sewas.kendaraan_id')
+                    ->join('users', 'users.id', '=', 'transaksi_sewas.user_id')
+                    ->join('merks', 'merks.id', '=', 'mobils.merk')
+                    ->join('model_mobils', 'model_mobils.id', '=', 'mobils.model')
+                    ->where(function ($query) {
+                        $query->whereNotNull('transaksi_sewas.tgl_kembali');
+                    })
+                    ->where(function ($query) {
+                        $query->where('user_id', auth()->user()->id);
+                    });
+            }
+
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -199,14 +301,18 @@ class TransaksiSewaController extends Controller
 
     public function kembalikan_mobil($id)
     {
-        $sewa = TransaksiSewa::where('id', $id)->where('tgl_kembali', null);
+        if (auth()->user()->role == 'admin') {
+            $sewa = TransaksiSewa::where('id', $id)->where('tgl_kembali', null);
+        } else {
+            $sewa = TransaksiSewa::where('id', $id)->where('user_id', auth()->user()->id)->where('tgl_kembali', null);
+        }
         if ($sewa->exists()) {
             $sewa->update([
                 'tgl_kembali' => Carbon::now()
             ]);
             return response()->json(['success' => 'Mobil Berhasil Dikembalikan !']);
         } else {
-            return response()->json(['success' => 'Tidak bisa dikembalikan !']);
+            return response()->json(['error' => 'Tidak bisa dikembalikan Karena User Login berbeda !']);
         }
     }
 
