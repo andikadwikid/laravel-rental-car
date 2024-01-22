@@ -10,5 +10,5 @@ save as file .env.example menjadi format .env
 - php artisan serve
 
 jika tampilan css nya tidak muncul run 2 (dua) command ini :
- 
+- npm install
 - php artisan serve + npm run dev
